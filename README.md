@@ -51,3 +51,6 @@ Check the [examples](/examples/) folder
 | this\_cloudwatch\_metric\_alarm\_id | The ID of the Cloudwatch metric alarm. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## License
+
+Apache 2 Licensed. See LICENSE for full details.
