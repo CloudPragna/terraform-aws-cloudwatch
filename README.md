@@ -1,4 +1,4 @@
-$ terraform module for AWS Cloudwatch Service
+$ Terraform module for AWS Cloudwatch 
 ## Examples
 
 Check the [examples](/examples/) folder 
@@ -20,35 +20,34 @@ Check the [examples](/examples/) folder
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| access\_policies | (Optional) IAM policy document specifying the access policies for the domain | `string` | `null` | no |
-| advanced\_options | (Optional) Key-value string pairs to specify advanced configuration options. Note that the values for these configuration options must be strings (wrapped in quotes) or they may be wrong and cause a perpetual diff, causing Terraform to want to recreate your Elasticsearch domain on every apply. | `map(string)` | `{}` | no |
-| advanced\_security\_options | (Optional) Options for fine-grained access control. | `map` | `{}` | no |
-| cloudwatch\_log\_group\_arn | (Optional) ARN of the Cloudwatch log group to which log needs to be published. | `string` | `""` | no |
-| cloudwatch\_log\_kms\_key\_id | (Optional) The ARN of the KMS Key to use when encrypting log data. Please note, after the AWS KMS CMK is disassociated from the log group, AWS CloudWatch Logs stops encrypting newly ingested data for the log group. | `string` | `null` | no |
-| cloudwatch\_log\_retention\_in\_days | (Optional) Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0. If you select 0, the events in the log group are always retained and never expire. | `number` | `0` | no |
-| cluster\_config | (Optional) Cluster configuration of the domain | `map` | <pre>{<br>  "dedicated_master_count": 3,<br>  "dedicated_master_enabled": true,<br>  "dedicated_master_type": "r5.large.elasticsearch",<br>  "instance_count": 3,<br>  "instance_type": "r5.large.elasticsearch",<br>  "zone_awareness_enabled": false<br>}</pre> | no |
-| cognito\_options | (Optional) Options for Amazon Cognito Authentication for Kibana | `map` | <pre>{<br>  "enabled": false<br>}</pre> | no |
-| create | Do you want to create ES Cluster | `bool` | `true` | no |
-| create\_service\_link\_role | Create service link role for AWS Elasticsearch Service | `bool` | `true` | no |
-| domain\_endpoint\_options | (Optional) Domain endpoint HTTP(S) related options. | `any` | <pre>{<br>  "enforce_https": true,<br>  "tls_security_policy": "Policy-Min-TLS-1-2-2019-07"<br>}</pre> | no |
-| domain\_name | (Required) Name of the domain. | `string` | n/a | yes |
-| ebs\_options | (Optional) EBS related options, may be required based on chosen instance size. | `map` | <pre>{<br>  "ebs_enabled": true,<br>  "volume_size": 20,<br>  "volume_type": "gp2"<br>}</pre> | no |
-| elasticsearch\_version | (Optional) The version of Elasticsearch to deploy. Defaults to 1.5 | `string` | `"1.5"` | no |
-| encrypt\_at\_rest | Optional) Encrypt at rest options. Only available for certain instance types. | `map` | <pre>{<br>  "enabled": true<br>}</pre> | no |
-| log\_publishing\_options | (Optional) Options for publishing slow and application logs to CloudWatch Logs. This block can be declared multiple times, for each log\_type, within the same resource. | `any` | <pre>[<br>  {<br>    "log_type": "AUDIT_LOGS"<br>  },<br>  {<br>    "log_type": "INDEX_SLOW_LOGS"<br>  },<br>  {<br>    "log_type": "SEARCH_SLOW_LOGS"<br>  },<br>  {<br>    "log_type": "ES_APPLICATION_LOGS"<br>  }<br>]</pre> | no |
-| node\_to\_node\_encryption | (Optional) Node-to-node encryption options. | `map` | <pre>{<br>  "enabled": false<br>}</pre> | no |
-| snapshot\_options | (Optional) Snapshot related options | `map` | `{}` | no |
-| tags | (Optional) A map of tags to assign to the resource | `map` | `{}` | no |
-| timeouts | Timeouts map. | `map` | `{}` | no |
-| vpc\_options | (Optional) VPC related options, Adding or removing this configuration forces a new resource | `map` | `{}` | no |
+| actions\_enabled | (Optional) Indicates whether or not actions should be executed during any changes to the alarm's state. Defaults to true. | `bool` | `true` | no |
+| alarm\_actions | (Optional) The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). | `list(string)` | `null` | no |
+| alarm\_description | (Optional) The description for the alarm. | `string` | `null` | no |
+| alarm\_name | (Required) The descriptive name for the alarm. This name must be unique within the user's AWS account. | `string` | n/a | yes |
+| comparison\_operator | (Required) The arithmetic operation to use when comparing the specified Statistic and Threshold. The specified Statistic value is used as the first operand. Either of the following is supported: GreaterThanOrEqualToThreshold, GreaterThanThreshold, LessThanThreshold, LessThanOrEqualToThreshold. | `string` | n/a | yes |
+| create\_metric\_alarm | (Optional) Whether to create the Cloudwatch metric alarm | `bool` | `true` | no |
+| datapoints\_to\_alarm | (Optional) The number of datapoints that must be breaching to trigger the alarm. | `number` | `null` | no |
+| dimensions | (Optional) The dimensions for the alarm's associated metric. | `any` | `null` | no |
+| evaluate\_low\_sample\_count\_percentiles | (Optional) Used only for alarms based on percentiles. If you specify ignore, the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. The following values are supported: ignore, and evaluate. | `string` | `null` | no |
+| evaluation\_periods | (Required) The number of periods over which data is compared to the specified threshold. | `number` | n/a | yes |
+| extended\_statistic | (Optional) The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100. | `string` | `null` | no |
+| insufficient\_data\_actions | (Optional) The list of actions to execute when this alarm transitions into an INSUFFICIENT\_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). | `list(string)` | `null` | no |
+| metric\_name | (Optional) The name for the alarm's associated metric. See docs for supported metrics. | `string` | `null` | no |
+| metric\_query | (Optional) Enables you to create an alarm based on a metric math expression. You may specify at most 20. | `any` | `[]` | no |
+| namespace | (Optional) The namespace for the alarm's associated metric. See docs for the list of namespaces. See docs for supported metrics. | `string` | `null` | no |
+| ok\_actions | (Optional) The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). | `list(string)` | `null` | no |
+| period | (Optional) The period in seconds over which the specified statistic is applied. | `string` | `null` | no |
+| statistic | (Optional) The statistic to apply to the alarm's associated metric. Either of the following is supported: SampleCount, Average, Sum, Minimum, Maximum | `string` | `null` | no |
+| tags | (Optional) A mapping of tags to assign to all resources | `map(string)` | `{}` | no |
+| threshold | (Required) The value against which the specified statistic is compared. | `number` | n/a | yes |
+| treat\_missing\_data | (Optional) Sets how this alarm is to handle missing data points. The following values are supported: missing, ignore, breaching and notBreaching. | `string` | `"missing"` | no |
+| unit | (Optional) The unit for the alarm's associated metric. | `string` | `null` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| arn | Amazon Resource Name (ARN) of the domain |
-| domain\_id | Unique identifier for the domain |
-| endpoint | Domain-specific endpoint used to submit index, search, and data upload requests |
-| kibana\_endpoint | Domain-specific endpoint for kibana without https scheme |
+| this\_cloudwatch\_metric\_alarm\_arn | The ARN of the Cloudwatch metric alarm. |
+| this\_cloudwatch\_metric\_alarm\_id | The ID of the Cloudwatch metric alarm. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
