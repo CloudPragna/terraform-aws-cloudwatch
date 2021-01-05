@@ -1,9 +1,9 @@
-output "this_cloudwatch_metric_alarm_arn" {
+output "arn" {
   description = "The ARN of the Cloudwatch metric alarm."
-  value       = element(concat(aws_cloudwatch_metric_alarm.this.*.arn, [""]), 0)
+  value       = join("",aws_cloudwatch_metric_alarm.this.*.arn)
 }
 
-output "this_cloudwatch_metric_alarm_id" {
+output "id" {
   description = "The ID of the Cloudwatch metric alarm."
-  value       = element(concat(aws_cloudwatch_metric_alarm.this.*.id, [""]), 0)
+  value       = join("",aws_cloudwatch_metric_alarm.this.*.id)
 }
